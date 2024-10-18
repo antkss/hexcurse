@@ -10,7 +10,7 @@ arch=('i686' 'x86_64')
 url="https://github.com/LonnyGomes/hexcurse"
 license=('GPL-2.0-only')
 depends=('ncurses')
-options=('!makeflags')
+options=(!makeflags !debug)
 
 prepare() {
   echo "nothing"
