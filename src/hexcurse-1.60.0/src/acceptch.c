@@ -109,8 +109,10 @@ int wacceptch(WINS *win, off_t len)
 
 	/* if file isn't opened only allow user input from the following keys */
 	if (!fpIN && (key != CTRL_AND('o')) && (key != KEY_F(3)) &&
-	   (key != CTRL_AND('h')) && (key != KEY_F(1)))
+	   (key != CTRL_AND('h')) && (key != KEY_F(1)) && (key != CTRL_AND('x')))
+	{
 	    continue;
+	}
 	
 
 	switch (key) {					/* check keypress     */
