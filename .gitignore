@@ -1,12 +1,12 @@
 pkg
 *pkg.tar*
-Makefile
-config.h
-config.log
-config.status
-stamp-h1
-autom4te.cache/
+src/hexcurse*/Makefile
+src/hexcurse*/config.h
+src/hexcurse*/config.log
+src/hexcurse*/config.status
+src/hexcurse*/stamp-h1
+src/hexcurse*/autom4te.cache/
 .deps/
 *.o
-hexcurse
+src/hexcurse*/src/hexcurse
 
