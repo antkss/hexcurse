@@ -2,10 +2,12 @@ pkg
 *pkg.tar*
 src/hexcurse*/Makefile
 src/hexcurse*/config.h
+src/hexcurse*/config.h.in~
 src/hexcurse*/config.log
 src/hexcurse*/config.status
 src/hexcurse*/stamp-h1
 src/hexcurse*/autom4te.cache/
+src/hexcurse*/configure~
 .deps/
 *.o
 src/hexcurse*/src/hexcurse
