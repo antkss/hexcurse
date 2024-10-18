@@ -78,7 +78,6 @@ Send bug reports to <bug-automake@gnu.org>."
 esac
 
 # Run the given program, remember its exit status.
-autoreconf -f -i
 "$@"; st=$?
 
 # If it succeeded, we are done.
