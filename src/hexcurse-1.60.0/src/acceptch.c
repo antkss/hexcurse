@@ -145,6 +145,7 @@ int wacceptch(WINS *win, off_t len)
 
 	case KEY_K:
 	case KEY_UP:					/* if UP...           */
+	    if (key == KEY_UP || editHex){
 		if (currentLine > 0) 			/* move up...         */
 		{   
 		    currentLine--;
@@ -154,9 +155,11 @@ int wacceptch(WINS *win, off_t len)
 		if ((currentLine >= 0) && (row < 0))	/* scroll up...       */
 		    winscroll(win, Winds, -1, currentLine);
 		break;
+	    }
 
 	case KEY_J:
 	case KEY_DOWN:					/* if DOWN...         */
+	    if (key == KEY_DOWN || editHex){
 		if (cursorLoc(currentLine + 1, col, editHex,BASE) < len) 
 		{   
 		    if (currentLine < maxlines)		/* move down...       */
@@ -169,10 +172,12 @@ int wacceptch(WINS *win, off_t len)
 		        winscroll(win, Winds, 1, currentLine);
 		}
 		break;
+	    }
 
-	case KEY_BACKSPACE:
 	case KEY_H:
 	case KEY_LEFT:					/* if LEFT or BACK... */
+	    if( key == KEY_LEFT || editHex)
+	    {
 		if ((col == 0) && (currentLine != 0))   /* move up...         */
 		{   
 	  	    currentLine--;
@@ -191,6 +196,39 @@ int wacceptch(WINS *win, off_t len)
 		        wmove(Winds, row, --col);
 		}
 		break;
+	    }
+	case KEY_L:
+		if (editHex){
+		    if (cursorLoc(currentLine, col, editHex, BASE) < len) 
+		    {   
+			wmove(Winds, row, ++col);	/* move right         */
+		        if (cursorLoc(currentLine, col, editHex,BASE) == len)
+			    wmove(Winds, row, --col);
+							/* move down          */
+		        if ((col == eol) && (currentLine < maxlines))
+		        {
+		            currentLine++;
+		            if (row < MAXY) {
+                                col = 0;
+	  	                wmove(Winds, ++row, col);
+                            }
+	                    else			/* scroll down        */
+	                    {
+			        winscroll(win, Winds, 1, currentLine);
+	 		        wmove(Winds, row, 0);
+	                    }
+		        }
+		        if (editHex)			/* adjust for hex win */
+		            if ((col + 1) % 3 == 0)
+		                wmove(Winds, row, ++col);
+		    }
+
+							/* if end of file...  */
+							/* adjust properly    */
+		    if (cursorLoc(currentLine, col, editHex,BASE) == len)
+			wmove(Winds, row, (col = col - 2));
+		    break;
+		}
 
 	default:					/* if other key...    */
 							/* if key we want...  */
@@ -264,7 +302,6 @@ int wacceptch(WINS *win, off_t len)
 		    /* continue to next
 							    case              */
 
-	case KEY_L:
 	case KEY_RIGHT:					/* if RIGHT...        */
 		    if (cursorLoc(currentLine, col, editHex, BASE) < len) 
 		    {   
@@ -296,6 +333,7 @@ int wacceptch(WINS *win, off_t len)
 			wmove(Winds, row, (col = col - 2));
 		}
 		break;
+
 
 	case CTRL_AND('u'):
 	case CTRL_AND('k'):
@@ -678,7 +716,7 @@ int wacceptch(WINS *win, off_t len)
 
 	 	wmove(Winds, row, col);			/* restore cursor     */
 		break;
-
+	case KEY_BACKSPACE:
 	case CTRL_AND('z'):				/* ^z undo last mod   */
 		getyx(Winds, row, col);
 
